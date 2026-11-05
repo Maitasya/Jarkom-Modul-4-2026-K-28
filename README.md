@@ -117,6 +117,13 @@ https://docs.google.com/spreadsheets/d/1kFEHDruR02-eszw0coIqQ5S9SRrWQ9jt/edit?gi
     
     <img width="960" height="516" alt="Bukti 9 — Koneksi antarjaringan" src="https://github.com/user-attachments/assets/1275e2e3-8c8f-40ac-8533-5e12c6024a41" />
 
+    kalau mau langsung pakek script semua node di cek  pakek *ping.sh*
+
+    caranya :
+    ```
+    chmod +x ping.sh
+    ./ping.sh
+    ```
 
 ### Kesimpulan
 
