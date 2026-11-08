@@ -137,8 +137,6 @@ Berdasarkan praktikum yang telah dilakukan, berhasil dibuat pembagian 25 subnet 
 
 Pada pengerjaan di Cisco Packet Tracer (CPT), metode perhitungan yang digunakan adalah **CIDR (Classless Inter-Domain Routing)** dengan penggabungan subnet (*supernetting / route aggregation*) berbasis pohon hierarki (*tree*).
 
-Network utama yang diberikan untuk **Kelompok K-28** adalah:
-$$\mathbf{192.225.0.0/19}$$
 ---
 
 <img width="1100" height="677" alt="image" src="https://github.com/user-attachments/assets/99bbe849-323b-4138-b43f-b654ba47c5af" />
