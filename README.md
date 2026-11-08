@@ -159,36 +159,6 @@ Aturan perhitungan:
 - Jumlah IP = jumlah host + jumlah interface router di subnet tersebut (switch tidak dihitung)
 - Prefix dipilih dari prefix terbesar yang memenuhi `2^n - 2 >= jumlah IP`
 
-| Subnet | Rute | Jumlah IP | Netmask |
-|---|---|---|---|
-| A1 | Cyberia > Switch1 > JJ, MyuMyu | 126 | /25 |
-| A2 | Cyberia > Wired | 2 | /30 |
-| A3 | Wired > Switch2 > Psyche, Copland, Schumann | 4 | /29 |
-| A4 | Psyche > Switch3 > Karl, Lin | 881 | /22 |
-| A5 | Copland > Juri | 32 | /26 |
-| A6 | Copland > Switch4 > Masayuki | 301 | /23 |
-| A7 | Schumann > Akashic | 4 | /29 |
-| A8 | Schumann > Accela | 2 | /30 |
-| A9 | Accela > Switch5 > Omnipresence, Denpa | 514 | /22 |
-| A10 | Wired > Tachibana | 2 | /30 |
-| A11 | Wired > Navi | 2 | /30 |
-| A12 | Navi > Switch6 > Alice, Reika | 254 | /24 |
-| A13 | Navi > Switch7 > Taro | 58 | /26 |
-| A14 | Navi > Switch8 > Yasuo, Miho, Kuma | 143 | /24 |
-| A15 | Tachibana > Switch9 > Collective, Ghost | 267 | /23 |
-| A16 | Tachibana > Deus | 2 | /30 |
-| A17 | Deus > Switch10 > Lilith, Specter | 99 | /25 |
-| A18 | Deus > Protocol7 | 2 | /30 |
-| A19 | Protocol7 > Switch11 > Chisa, Hodgeson | 33 | /26 |
-| A20 | Protocol7 > Knights | 2 | /30 |
-| A21 | Knights > Eiri | 3 | /29 |
-| A22 | Knights > Phantoma | 2 | /30 |
-| A23 | Phantoma > Switch12 > Semi | 15 | /27 |
-| A24 | Phantoma > Shibuya | 2 | /30 |
-| A25 | Shibuya > Switch13 > Lain, Mika | 62 | /26 |
-
-Total kebutuhan 2814 IP. Setelah dibulatkan ke blok pangkat dua, totalnya 4188 alamat. Angka ini melebihi 4096 (/20), sehingga blok induknya **/19**.
-
 <img width="815" height="648" alt="image" src="https://github.com/user-attachments/assets/8c88cb93-a510-4636-82d8-75b94a589730" />
 
 ---
