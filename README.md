@@ -313,7 +313,7 @@ end
 write memory
 ```
 
-<img width="611" height="341" alt="image" src="https://github.com/user-attachments/assets/268f827e-3643-43bc-ab39-aebe50793c35" />
+<img width="607" height="352" alt="image" src="https://github.com/user-attachments/assets/edc212d3-3018-4b22-a7ba-4944f190c006" />
 
 
 ### 9.2 Wired
