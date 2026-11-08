@@ -139,452 +139,452 @@ Pada pengerjaan di Cisco Packet Tracer (CPT), metode perhitungan yang digunakan 
 
 Network utama yang diberikan untuk **Kelompok K-28** adalah:
 $$\mathbf{192.225.0.0/19}$$
+---
+
+<img width="1100" height="677" alt="image" src="https://github.com/user-attachments/assets/99bbe849-323b-4138-b43f-b654ba47c5af" />
+
+
+## 1. Pendahuluan
+
+Pada Layer 04, jaringan The Wired dibangun ulang dalam skala besar. Hanya router **Cyberia** yang terhubung ke dunia luar (Cloud). Tugasnya adalah membagi alamat IP seefisien mungkin dan menyusun routing sehingga seluruh node saling terhubung.
+
+- Topologi: 13 router, 13 switch, 25 subnet
+- Metode di CPT: **CIDR** (penggabungan subnet bottom-up)
+- Prefix IP: `192.225.0.0`
+- Blok induk hasil perhitungan: `192.225.0.0/19`
 
 ---
 
-#### 1. Topologi Jaringan pada Cisco Packet Tracer (CPT)
+## 2. Perhitungan Jumlah IP dan Netmask
 
-Topologi pada Cisco Packet Tracer terdiri dari:
-- **13 Router Cisco 2811**: Cyberia, wired, Navi, Psyche, Copland, Schumann, Accela, Tachibana, Deus, Protocol7, Knights, Phantoma, dan Shibuya.
-- **13 Switch**: Switch_1 sampai Switch_12 dan Switch13.
-- **25 End Devices (Host)**: PC, Laptop, dan Server (Akashic, Alice, Chisa, Collective, Denpa, Eiri, Ghost, Hudgeson, JJ, Juri, Karl, Kuma, Lain, Lin, Llilith, Masayuki, Miho, Mika, MyuMyu, Omnipresence, Reika, Semi, Specter, Taro, Yasuo).
-- **1 Cloud (Cloud0)**: Terhubung langsung ke router Cyberia interface FastEthernet0/0.
-- **25 Subnet**: Diberi label A1 hingga A25.
+Aturan perhitungan:
+- Jumlah IP = jumlah host + jumlah interface router di subnet tersebut (switch tidak dihitung)
+- Prefix dipilih dari prefix terbesar yang memenuhi `2^n - 2 >= jumlah IP`
 
-Berdasarkan analisis kebutuhan host dan interface router, terdapat **25 subnet** yang saling terkoneksi.
+| Subnet | Rute | Jumlah IP | Netmask |
+|---|---|---|---|
+| A1 | Cyberia > Switch1 > JJ, MyuMyu | 126 | /25 |
+| A2 | Cyberia > Wired | 2 | /30 |
+| A3 | Wired > Switch2 > Psyche, Copland, Schumann | 4 | /29 |
+| A4 | Psyche > Switch3 > Karl, Lin | 881 | /22 |
+| A5 | Copland > Juri | 32 | /26 |
+| A6 | Copland > Switch4 > Masayuki | 301 | /23 |
+| A7 | Schumann > Akashic | 4 | /29 |
+| A8 | Schumann > Accela | 2 | /30 |
+| A9 | Accela > Switch5 > Omnipresence, Denpa | 514 | /22 |
+| A10 | Wired > Tachibana | 2 | /30 |
+| A11 | Wired > Navi | 2 | /30 |
+| A12 | Navi > Switch6 > Alice, Reika | 254 | /24 |
+| A13 | Navi > Switch7 > Taro | 58 | /26 |
+| A14 | Navi > Switch8 > Yasuo, Miho, Kuma | 143 | /24 |
+| A15 | Tachibana > Switch9 > Collective, Ghost | 267 | /23 |
+| A16 | Tachibana > Deus | 2 | /30 |
+| A17 | Deus > Switch10 > Lilith, Specter | 99 | /25 |
+| A18 | Deus > Protocol7 | 2 | /30 |
+| A19 | Protocol7 > Switch11 > Chisa, Hodgeson | 33 | /26 |
+| A20 | Protocol7 > Knights | 2 | /30 |
+| A21 | Knights > Eiri | 3 | /29 |
+| A22 | Knights > Phantoma | 2 | /30 |
+| A23 | Phantoma > Switch12 > Semi | 15 | /27 |
+| A24 | Phantoma > Shibuya | 2 | /30 |
+| A25 | Shibuya > Switch13 > Lain, Mika | 62 | /26 |
 
----
+Total kebutuhan 2814 IP. Setelah dibulatkan ke blok pangkat dua, totalnya 4188 alamat. Angka ini melebihi 4096 (/20), sehingga blok induknya **/19**.
 
-#### 2. Tabel Analisis Subnet & Rute (Kebutuhan IP)
-
-Berikut adalah tabel rute dan kebutuhan IP untuk 25 subnet berdasarkan hasil perhitungan praktikan:
-
-![Tabel Rute Subnet CIDR](rute_table_cidr.png)
-
-| Nama Subnet | Rute / Jalur Jaringan | Jumlah IP | Netmask |
-| :---: | :--- | :---: | :---: |
-| **A1** | Cyberia > Switch1 > JJ, MyuMyu | 126 | /25 |
-| **A2** | Cyberia > Wired | 2 | /30 |
-| **A3** | Wired > Switch2 > Psyche, Copland, Schumann | 4 | /29 |
-| **A4** | Psyche > Switch3 > Karl, Lin | 881 | /22 |
-| **A5** | Copland > Juri | 32 | /26 |
-| **A6** | Copland > Switch4 > Masayuki | 301 | /23 |
-| **A7** | Schumann > Akashic | 4 | /29 |
-| **A8** | Schumann > Accela | 2 | /30 |
-| **A9** | Accela > Switch5 > Omnipresence, Denpa | 514 | /22 |
-| **A10** | Wired > Tachibana | 2 | /30 |
-| **A11** | Wired > Navi | 2 | /30 |
-| **A12** | Navi > Switch6 > Alice, Reika | 254 | /24 |
-| **A13** | Navi > Switch7 > Taro | 58 | /26 |
-| **A14** | Navi > Switch8 > Yasuo, Miho, Kuma | 143 | /24 |
-| **A15** | Tachibana > Switch9 > Collective, Ghost | 267 | /23 |
-| **A16** | Tachibana > Deus | 2 | /30 |
-| **A17** | Deus > Switch10 > Lilith, Specter | 99 | /25 |
-| **A18** | Deus > Protocol7 | 2 | /30 |
-| **A19** | Protocol7 > Switch11 > Chisa, Hodgeson | 33 | /26 |
-| **A20** | Protocol7 > Knights | 2 | /30 |
-| **A21** | Knights > Eiri | 3 | /29 |
-| **A22** | Knights > Phantoma | 2 | /30 |
-| **A23** | Phantoma > Switch12 > Semi | 15 | /27 |
-| **A24** | Phantoma > Shibuya | 2 | /30 |
-| **A25** | Shibuya > Switch13 > Lain, Mika | 62 | /26 |
-| **Total** | | **2814** | **/19** |
+<img width="815" height="648" alt="image" src="https://github.com/user-attachments/assets/8c88cb93-a510-4636-82d8-75b94a589730" />
 
 ---
 
-#### 3. Penggabungan Subnet (CIDR Supernetting Tree)
+## 3. Penggabungan Subnet (Konsep CIDR)
 
-Pada metode CIDR, penggabungan dilakukan secara bertahap (*bottom-up*) dari subnet cabang terluar menuju ke hub pusat (Cyberia / Wired).
-Aturan penggabungan dua subnet/supernet dengan prefiks $P_1$ dan $P_2$:
-$$\text{Netmask Hasil Penggabungan} = \min(P_1, P_2) - 1$$
+Pada CIDR, subnet digabung dari bawah ke atas. Dua subnet dapat digabung jika:
+1. Alamatnya bersebelahan
+2. Awalnya rata (network subnet pertama kelipatan ukuran blok gabungan)
+3. Prefix turun 1 bit tiap penggabungan
 
-##### Tabel Tahapan Penggabungan CIDR
+Jika dua subnet berbeda ukuran (C4 dan F2), dipilih blok pangkat dua terkecil yang rata dan memuat keduanya. Selisih ukuran menyisakan ruang kosong.
 
-| Level | Subnet Hasil | Gabungan Subnet 1 | Netmask 1 | Gabungan Subnet 2 | Netmask 2 | Netmask Akhir | Keterangan Area |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **I** | **B1** | A24 | /30 | A25 | /26 | **/25** | Shibuya & Phantoma Link |
-| **I** | **B2** | A22 | /30 | A23 | /27 | **/26** | Phantoma LAN & Knights Link |
-| **I** | **B3** | A20 | /30 | A21 | /29 | **/28** | Knights LAN & Protocol7 Link |
-| **I** | **B4** | A18 | /30 | A19 | /26 | **/25** | Protocol7 LAN & Deus Link |
-| **I** | **B5** | A16 | /30 | A17 | /25 | **/24** | Deus LAN & Tachibana Link |
-| **I** | **B6** | A10 | /30 | A15 | /23 | **/22** | Tachibana LAN & Wired Link |
-| **I** | **B7** | A13 | /26 | A14 | /24 | **/23** | Navi LAN (Taro, Yasuo, Miho, Kuma) |
-| **I** | **B8** | A11 | /30 | A12 | /24 | **/23** | Navi LAN (Alice, Reika) & Wired Link |
-| **I** | **B9** | A7 | /29 | A8 | /30 | **/28** | Schumann LAN & Accela Link |
-| **I** | **B10** | A5 | /26 | A6 | /23 | **/22** | Copland LANs (Juri, Masayuki) |
-| **I** | **B11** | A3 | /29 | A4 | /22 | **/21** | Psyche LAN & Switch2 Segment |
-| **I** | **B12** | A1 | /25 | A2 | /30 | **/24** | Cyberia LAN & Wired Link |
-| **II** | **C1** | B1 | /25 | B2 | /26 | **/24** | Phantoma & Shibuya Segment |
-| **II** | **C2** | B3 | /28 | B4 | /25 | **/24** | Protocol7 & Knights Segment |
-| **II** | **C3** | B5 | /24 | B6 | /22 | **/21** | Tachibana & Deus Segment |
-| **II** | **C4** | B7 | /23 | B8 | /23 | **/22** | Navi Area Total |
-| **II** | **C5** | B9 | /28 | A9 | /22 | **/21** | Schumann & Accela Area |
-| **II** | **C6** | B10 | /22 | B11 | /21 | **/20** | Psyche & Copland Area |
-| **III** | **D1** | C1 | /24 | C2 | /24 | **/23** | Deep Wired (Protocol7 s/d Shibuya) |
-| **III** | **D2** | D1 | /23 | C3 | /21 | **/20** | Tachibana s/d Shibuya Area |
-| **III** | **D3** | C4 | /22 | C5 | /21 | **/20** | Navi, Schumann & Accela Area |
-| **III** | **D4** | B12 | /24 | C6 | /20 | **/19\*** | Cyberia, Psyche, Copland Branch |
-| **IV & V**| **Root** | D2 | /20 | D3 | /20 | **/19** | **Supernet Utama The Wired (192.225.0.0/19)** |
+### Level I
 
-##### Struktur Pohon Hierarki CIDR (*CIDR Tree*)
+| Subnet | Sub 1 | Netmask | Sub 2 | Netmask | Netmask Akhir |
+|---|---|---|---|---|---|
+| B1 | A4 | /22 | A9 | /22 | /21 |
+| B2 | A6 | /23 | A15 | /23 | /22 |
+| B3 | A12 | /24 | A14 | /24 | /23 |
+| B4 | A1 | /25 | A17 | /25 | /24 |
+| B5 | A25 | /26 | A13 | /26 | /25 |
+| B6 | A19 | /26 | A5 | /26 | /25 |
+| B7 | A3 | /29 | A7 | /29 | /28 |
+| B8 | A2 | /30 | A8 | /30 | /29 |
+| B9 | A10 | /30 | A11 | /30 | /29 |
+| B10 | A16 | /30 | A18 | /30 | /29 |
+| B11 | A20 | /30 | A22 | /30 | /29 |
+
+### Level II
+
+| Subnet | Sub 1 | Netmask | Sub 2 | Netmask | Netmask Akhir |
+|---|---|---|---|---|---|
+| C1 | B5 | /25 | B6 | /25 | /24 |
+| C2 | A21 | /29 | B8 | /29 | /28 |
+| C3 | B9 | /29 | B10 | /29 | /28 |
+| C4 | B11 | /29 | A24 | /30 | /28 |
+
+### Level III
+
+| Subnet | Sub 1 | Netmask | Sub 2 | Netmask | Netmask Akhir |
+|---|---|---|---|---|---|
+| D1 | B4 | /24 | C1 | /24 | /23 |
+| D2 | B7 | /28 | C2 | /28 | /27 |
+| D3 | C3 | /28 | C4 | /28 | /27 |
+
+### Level IV
+
+| Subnet | Sub 1 | Netmask | Sub 2 | Netmask | Netmask Akhir |
+|---|---|---|---|---|---|
+| E1 | B3 | /23 | D1 | /23 | /22 |
+| E2 | A23 | /27 | D2 | /27 | /26 |
+
+### Level V
+
+| Subnet | Sub 1 | Netmask | Sub 2 | Netmask | Netmask Akhir |
+|---|---|---|---|---|---|
+| F1 | B2 | /22 | E1 | /22 | /21 |
+| F2 | E2 | /26 | D3 | /27 | /25 |
+
+### Level VI
+
+| Subnet | Sub 1 | Netmask | Sub 2 | Netmask | Netmask Akhir |
+|---|---|---|---|---|---|
+| G1 | B1 | /21 | F1 | /21 | /20 |
+
+### Level VII
+
+| Subnet | Sub 1 | Netmask | Sub 2 | Netmask | Netmask Akhir |
+|---|---|---|---|---|---|
+| H1 | G1 | /20 | F2 | /25 | /19 |
+
+Hasil akhir: **192.225.0.0/19**. Ruang kosong hanya di `192.225.16.92 - 16.95` (C4) dan `192.225.16.96 - 16.127` (F2).
+
+<img width="703" height="751" alt="image" src="https://github.com/user-attachments/assets/2147e058-a05f-4c8c-8b96-24dceb44150c" />
+
+---
+
+## 4. Pohon Pembagian IP (Tree)
+
+Tree dibaca dari bawah ke atas. Daun adalah subnet A1 - A25, lalu digabung menjadi B, C, D, E, F, G, dan puncaknya H1 (`192.225.0.0/19`).
+
+<img width="772" height="425" alt="image" src="https://github.com/user-attachments/assets/f2ef2634-c467-4cf0-ae63-764076ee2cc3" />
+
+
+---
+
+## 5. Tabel Pembagian IP
+
+| Subnet | Network ID | Netmask | Broadcast | Range IP |
+|---|---|---|---|---|
+| A1 | 192.225.14.0 | 255.255.255.128 | 192.225.14.127 | 192.225.14.1 - 192.225.14.126 |
+| A2 | 192.225.16.56 | 255.255.255.252 | 192.225.16.59 | 192.225.16.57 - 192.225.16.58 |
+| A3 | 192.225.16.32 | 255.255.255.248 | 192.225.16.39 | 192.225.16.33 - 192.225.16.38 |
+| A4 | 192.225.0.0 | 255.255.252.0 | 192.225.3.255 | 192.225.0.1 - 192.225.3.254 |
+| A5 | 192.225.15.192 | 255.255.255.192 | 192.225.15.255 | 192.225.15.193 - 192.225.15.254 |
+| A6 | 192.225.8.0 | 255.255.254.0 | 192.225.9.255 | 192.225.8.1 - 192.225.9.254 |
+| A7 | 192.225.16.40 | 255.255.255.248 | 192.225.16.47 | 192.225.16.41 - 192.225.16.46 |
+| A8 | 192.225.16.60 | 255.255.255.252 | 192.225.16.63 | 192.225.16.61 - 192.225.16.62 |
+| A9 | 192.225.4.0 | 255.255.252.0 | 192.225.7.255 | 192.225.4.1 - 192.225.7.254 |
+| A10 | 192.225.16.64 | 255.255.255.252 | 192.225.16.67 | 192.225.16.65 - 192.225.16.66 |
+| A11 | 192.225.16.68 | 255.255.255.252 | 192.225.16.71 | 192.225.16.69 - 192.225.16.70 |
+| A12 | 192.225.12.0 | 255.255.255.0 | 192.225.12.255 | 192.225.12.1 - 192.225.12.254 |
+| A13 | 192.225.15.64 | 255.255.255.192 | 192.225.15.127 | 192.225.15.65 - 192.225.15.126 |
+| A14 | 192.225.13.0 | 255.255.255.0 | 192.225.13.255 | 192.225.13.1 - 192.225.13.254 |
+| A15 | 192.225.10.0 | 255.255.254.0 | 192.225.11.255 | 192.225.10.1 - 192.225.11.254 |
+| A16 | 192.225.16.72 | 255.255.255.252 | 192.225.16.75 | 192.225.16.73 - 192.225.16.74 |
+| A17 | 192.225.14.128 | 255.255.255.128 | 192.225.14.255 | 192.225.14.129 - 192.225.14.254 |
+| A18 | 192.225.16.76 | 255.255.255.252 | 192.225.16.79 | 192.225.16.77 - 192.225.16.78 |
+| A19 | 192.225.15.128 | 255.255.255.192 | 192.225.15.191 | 192.225.15.129 - 192.225.15.190 |
+| A20 | 192.225.16.80 | 255.255.255.252 | 192.225.16.83 | 192.225.16.81 - 192.225.16.82 |
+| A21 | 192.225.16.48 | 255.255.255.248 | 192.225.16.55 | 192.225.16.49 - 192.225.16.54 |
+| A22 | 192.225.16.84 | 255.255.255.252 | 192.225.16.87 | 192.225.16.85 - 192.225.16.86 |
+| A23 | 192.225.16.0 | 255.255.255.224 | 192.225.16.31 | 192.225.16.1 - 192.225.16.30 |
+| A24 | 192.225.16.88 | 255.255.255.252 | 192.225.16.91 | 192.225.16.89 - 192.225.16.90 |
+| A25 | 192.225.15.0 | 255.255.255.192 | 192.225.15.63 | 192.225.15.1 - 192.225.15.62 |
+
+<img width="791" height="527" alt="image" src="https://github.com/user-attachments/assets/7327641f-fabb-4d76-8fc8-e9f8fd11b44b" />
+
+
+---
+
+## 6. Pembuatan Topologi di Cisco Packet Tracer
+
+### 6.1 Menambahkan device
+
+Device yang dipakai: 13 router **2811**, 13 **Switch-PT**, 1 **Cloud-PT**, serta Server-PT, Laptop-PT, dan PC-PT sesuai gambar topologi. Setiap device diberi nama sesuai soal.
+
+### 6.2 Menambah modul router
+
+Router 2811 hanya punya 2 port bawaan. Router yang membutuhkan 3 atau 4 port ditambah modul **NM-2FE2W** (power dimatikan dulu, modul dipasang, lalu power dinyalakan kembali). Router yang dipasangi modul: Wired, Navi, Cyberia, Copland, Schumann, Tachibana, Deus, Protocol7, Knights, Phantoma.
+
+### 6.3 Memasang kabel
+
+- Router ke router dan router ke end device langsung: **Copper Cross-Over**
+- Router ke switch dan switch ke end device: **Copper Straight-Through**
+- Cloud ke Cyberia: **Copper Straight-Through**
+
+---
+
+## 7. Konfigurasi IP pada Router
+
+IP interface router diberikan sesuai tabel pembagian IP. Router yang lebih dekat ke Cyberia/Wired mendapat IP pertama pada link point-to-point.
+
+| Router | Tujuan | IP | Netmask |
+|---|---|---|---|
+| Cyberia | Switch1 | 192.225.14.1 | 255.255.255.128 |
+| | Wired | 192.225.16.57 | 255.255.255.252 |
+| Wired | Cyberia | 192.225.16.58 | 255.255.255.252 |
+| | Switch2 | 192.225.16.33 | 255.255.255.248 |
+| | Tachibana | 192.225.16.65 | 255.255.255.252 |
+| | Navi | 192.225.16.69 | 255.255.255.252 |
+| Psyche | Switch2 | 192.225.16.34 | 255.255.255.248 |
+| | Switch3 | 192.225.0.1 | 255.255.252.0 |
+| Copland | Switch2 | 192.225.16.35 | 255.255.255.248 |
+| | Juri | 192.225.15.193 | 255.255.255.192 |
+| | Switch4 | 192.225.8.1 | 255.255.254.0 |
+| Schumann | Switch2 | 192.225.16.36 | 255.255.255.248 |
+| | Akashic | 192.225.16.41 | 255.255.255.248 |
+| | Accela | 192.225.16.61 | 255.255.255.252 |
+| Accela | Schumann | 192.225.16.62 | 255.255.255.252 |
+| | Switch5 | 192.225.4.1 | 255.255.252.0 |
+| Navi | Wired | 192.225.16.70 | 255.255.255.252 |
+| | Switch6 | 192.225.12.1 | 255.255.255.0 |
+| | Switch7 | 192.225.15.65 | 255.255.255.192 |
+| | Switch8 | 192.225.13.1 | 255.255.255.0 |
+| Tachibana | Wired | 192.225.16.66 | 255.255.255.252 |
+| | Switch9 | 192.225.10.1 | 255.255.254.0 |
+| | Deus | 192.225.16.73 | 255.255.255.252 |
+| Deus | Tachibana | 192.225.16.74 | 255.255.255.252 |
+| | Switch10 | 192.225.14.129 | 255.255.255.128 |
+| | Protocol7 | 192.225.16.77 | 255.255.255.252 |
+| Protocol7 | Deus | 192.225.16.78 | 255.255.255.252 |
+| | Switch11 | 192.225.15.129 | 255.255.255.192 |
+| | Knights | 192.225.16.81 | 255.255.255.252 |
+| Knights | Protocol7 | 192.225.16.82 | 255.255.255.252 |
+| | Eiri | 192.225.16.49 | 255.255.255.248 |
+| | Phantoma | 192.225.16.85 | 255.255.255.252 |
+| Phantoma | Knights | 192.225.16.86 | 255.255.255.252 |
+| | Switch12 | 192.225.16.1 | 255.255.255.224 |
+| | Shibuya | 192.225.16.89 | 255.255.255.252 |
+| Shibuya | Phantoma | 192.225.16.90 | 255.255.255.252 |
+| | Switch13 | 192.225.15.1 | 255.255.255.192 |
+
+Contoh konfigurasi (Cyberia):
 
 ```
-                            [192.225.0.0/19] (Total The Wired: 8192 IP)
-                                   /                \
-                                  /                  \
-                   [192.225.0.0/20]                  [192.225.16.0/20]
-                    (Branch Barat)                    (Branch Timur)
-                     /          \                     /          \
-         [192.225.0.0/21]   [192.225.8.0/21]  [192.225.16.0/21]   [192.225.24.0/21]
-         (Psyche/Copland)        (Navi)       (Cyberia/Schumann) (Tachibana s/d Shibuya)
-          /            \           /     \         /         \          /           \
-     A4(/22)      [4.0/22]     [8.0/22] [10.0/22] A9(/22)   [20.0/22]   A15(/23)    [26.0/22]
-                  /      \      /    \                     /       \                /       \
-              A6(/23)  [6.0/23] A12 A14                  A1(/25)  A7,A2,A8       A17(/25)  A19,A25
-                       /     \                           (/29,/30,/30)                    (/26,/26)
-                     A5(/26) A3(/29)                                                     + A21,A23,
-                                                                                         A10,A16,
-                                                                                         A18,A20,
-                                                                                         A22,A24
+enable
+configure terminal
+interface fastEthernet0/1
+ ip address 192.225.14.1 255.255.255.128
+ no shutdown
+interface fastEthernet1/0
+ ip address 192.225.16.57 255.255.255.252
+ no shutdown
+end
+write memory
 ```
 
----
-
-#### 4. Pembagian IP CIDR (Tabel Alokasi IP Address)
-
-Berdasarkan struktur pohon hierarki CIDR yang dibentuk dari network induk `192.225.0.0/19`, berikut adalah tabel pembagian alamat IP lengkap untuk ke-25 subnet:
-
-| Subnet | Network ID | Netmask | Broadcast | Range IP Host | Interface Router & IP Gateway | Perangkat Host & IP |
-| :---: | :---: | :---: | :---: | :---: | :--- | :--- |
-| **A1** | `192.225.20.0` | `255.255.255.128` (/25) | `192.225.20.127` | `192.225.20.1 - 192.225.20.126` | Cyberia Fa0/1: `192.225.20.1` | JJ: `192.225.20.2`<br>MyuMyu: `192.225.20.3` |
-| **A2** | `192.225.20.136` | `255.255.255.252` (/30) | `192.225.20.139` | `192.225.20.137 - 192.225.20.138` | Cyberia Fa1/0: `192.225.20.137`<br>wired Fa0/0: `192.225.20.138` | - |
-| **A3** | `192.225.6.64` | `255.255.255.248` (/29) | `192.225.6.71` | `192.225.6.65 - 192.225.6.70` | wired Fa0/1: `192.225.6.65`<br>Psyche Fa0/0: `192.225.6.66`<br>Copland Fa0/0: `192.225.6.67`<br>Schumann Fa0/0: `192.225.6.68` | - |
-| **A4** | `192.225.0.0` | `255.255.252.0` (/22) | `192.225.3.255` | `192.225.0.1 - 192.225.3.254` | Psyche Fa0/1: `192.225.0.1` | Karl: `192.225.0.2`<br>Lin: `192.225.0.3` |
-| **A5** | `192.225.6.0` | `255.255.255.192` (/26) | `192.225.6.63` | `192.225.6.1 - 192.225.6.62` | Copland Fa0/1: `192.225.6.1` | Juri: `192.225.6.2` |
-| **A6** | `192.225.4.0` | `255.255.254.0` (/23) | `192.225.5.255` | `192.225.4.1 - 192.225.5.254` | Copland Fa1/0: `192.225.4.1` | Masayuki: `192.225.4.2` |
-| **A7** | `192.225.20.128` | `255.255.255.248` (/29) | `192.225.20.135` | `192.225.20.129 - 192.225.20.134` | Schumann Fa0/1: `192.225.20.129` | Akashic: `192.225.20.130` |
-| **A8** | `192.225.20.140` | `255.255.255.252` (/30) | `192.225.20.143` | `192.225.20.141 - 192.225.20.142` | Schumann Fa1/0: `192.225.20.141`<br>Accela Fa0/0: `192.225.20.142` | - |
-| **A9** | `192.225.16.0` | `255.255.252.0` (/22) | `192.225.19.255` | `192.225.16.1 - 192.225.19.254` | Accela Fa0/1: `192.225.16.1` | Omnipresence: `192.225.16.2`<br>Denpa: `192.225.16.3` |
-| **A10** | `192.225.28.40` | `255.255.255.252` (/30) | `192.225.28.43` | `192.225.28.41 - 192.225.28.42` | wired Fa1/0: `192.225.28.41`<br>Tachibana Fa0/0: `192.225.28.42` | - |
-| **A11** | `192.225.10.64` | `255.255.255.252` (/30) | `192.225.10.67` | `192.225.10.65 - 192.225.10.66` | wired Fa1/1: `192.225.10.65`<br>Navi Fa0/0: `192.225.10.66` | - |
-| **A12** | `192.225.8.0` | `255.255.255.0` (/24) | `192.225.8.255` | `192.225.8.1 - 192.225.8.254` | Navi Fa0/1: `192.225.8.1` | Alice: `192.225.8.2`<br>Reika: `192.225.8.3` |
-| **A13** | `192.225.10.0` | `255.255.255.192` (/26) | `192.225.10.63` | `192.225.10.1 - 192.225.10.62` | Navi Fa1/0: `192.225.10.1` | Taro: `192.225.10.2` |
-| **A14** | `192.225.9.0` | `255.255.255.0` (/24) | `192.225.9.255` | `192.225.9.1 - 192.225.9.254` | Navi Fa1/1: `192.225.9.1` | Yasuo: `192.225.9.2`<br>Miho: `192.225.9.3`<br>Kuma: `192.225.9.4` |
-| **A15** | `192.225.24.0` | `255.255.254.0` (/23) | `192.225.25.255` | `192.225.24.1 - 192.225.25.254` | Tachibana Fa0/1: `192.225.24.1` | Collective: `192.225.24.2`<br>Ghost: `192.225.24.3` |
-| **A16** | `192.225.28.44` | `255.255.255.252` (/30) | `192.225.28.47` | `192.225.28.45 - 192.225.28.46` | Tachibana Fa1/0: `192.225.28.45`<br>Deus Fa0/0: `192.225.28.46` | - |
-| **A17** | `192.225.26.0` | `255.255.255.128` (/25) | `192.225.26.127` | `192.225.26.1 - 192.225.26.126` | Deus Fa0/1: `192.225.26.1` | Llilith: `192.225.26.2`<br>Specter: `192.225.26.3` |
-| **A18** | `192.225.28.48` | `255.255.255.252` (/30) | `192.225.28.51` | `192.225.28.49 - 192.225.28.50` | Deus Fa1/0: `192.225.28.49`<br>Protocol7 Fa0/0: `192.225.28.50` | - |
-| **A19** | `192.225.26.128` | `255.255.255.192` (/26) | `192.225.26.191` | `192.225.26.129 - 192.225.26.190` | Protocol7 Fa0/1: `192.225.26.129` | Chisa: `192.225.26.130`<br>Hudgeson: `192.225.26.131` |
-| **A20** | `192.225.28.52` | `255.255.255.252` (/30) | `192.225.28.55` | `192.225.28.53 - 192.225.28.54` | Protocol7 Fa1/0: `192.225.28.53`<br>Knights Fa0/0: `192.225.28.54` | - |
-| **A21** | `192.225.28.32` | `255.255.255.248` (/29) | `192.225.28.39` | `192.225.28.33 - 192.225.28.38` | Knights Fa0/1: `192.225.28.33` | Eiri: `192.225.28.34` |
-| **A22** | `192.225.28.56` | `255.255.255.252` (/30) | `192.225.28.59` | `192.225.28.57 - 192.225.28.58` | Knights Fa1/0: `192.225.28.57`<br>Phantoma Fa0/0: `192.225.28.58` | - |
-| **A23** | `192.225.28.0` | `255.255.255.224` (/27) | `192.225.28.31` | `192.225.28.1 - 192.225.28.30` | Phantoma Fa0/1: `192.225.28.1` | Semi: `192.225.28.2` |
-| **A24** | `192.225.28.60` | `255.255.255.252` (/30) | `192.225.28.63` | `192.225.28.61 - 192.225.28.62` | Phantoma Fa1/0: `192.225.28.61`<br>Shibuya Fa0/0: `192.225.28.62` | - |
-| **A25** | `192.225.26.192` | `255.255.255.192` (/26) | `192.225.26.255` | `192.225.26.193 - 192.225.26.254` | Shibuya Fa0/1: `192.225.26.193` | Lain: `192.225.26.194`<br>Mika: `192.225.26.195` |
+Verifikasi dengan `show ip interface brief`:
 
 ---
 
-#### 5. Konfigurasi Alamat IP & Static Routing pada Router Cisco (CPT)
+## 8. Konfigurasi IP pada End Device
 
-Seluruh konfigurasi interface dan tabel routing diterapkan pada masing-masing router melalui Cisco IOS CLI.
+Setiap end device dikonfigurasi pada **Desktop > IP Configuration** (Static). IP berada dalam subnet yang sama dengan gateway-nya (IP interface router di segmen itu).
 
-##### a. Konfigurasi Interface Router
-- **Cyberia**:
-  - `FastEthernet0/1`: `192.225.20.1 255.255.255.128`
-  - `FastEthernet1/0`: `192.225.20.137 255.255.255.252`
-- **wired**:
-  - `FastEthernet0/0`: `192.225.20.138 255.255.255.252`
-  - `FastEthernet0/1`: `192.225.6.65 255.255.255.248`
-  - `FastEthernet1/0`: `192.225.28.41 255.255.255.252`
-  - `FastEthernet1/1`: `192.225.10.65 255.255.255.252`
-- **Psyche**:
-  - `FastEthernet0/0`: `192.225.6.66 255.255.255.248`
-  - `FastEthernet0/1`: `192.225.0.1 255.255.252.0`
-- **Copland**:
-  - `FastEthernet0/0`: `192.225.6.67 255.255.255.248`
-  - `FastEthernet0/1`: `192.225.6.1 255.255.255.192`
-  - `FastEthernet1/0`: `192.225.4.1 255.255.254.0`
-- **Schumann**:
-  - `FastEthernet0/0`: `192.225.6.68 255.255.255.248`
-  - `FastEthernet0/1`: `192.225.20.129 255.255.255.248`
-  - `FastEthernet1/0`: `192.225.20.141 255.255.255.252`
-- **Accela**:
-  - `FastEthernet0/0`: `192.225.20.142 255.255.255.252`
-  - `FastEthernet0/1`: `192.225.16.1 255.255.252.0`
-- **Navi**:
-  - `FastEthernet0/0`: `192.225.10.66 255.255.255.252`
-  - `FastEthernet0/1`: `192.225.8.1 255.255.255.0`
-  - `FastEthernet1/0`: `192.225.10.1 255.255.255.192`
-  - `FastEthernet1/1`: `192.225.9.1 255.255.255.0`
-- **Tachibana**:
-  - `FastEthernet0/0`: `192.225.28.42 255.255.255.252`
-  - `FastEthernet0/1`: `192.225.24.1 255.255.254.0`
-  - `FastEthernet1/0`: `192.225.28.45 255.255.255.252`
-- **Deus**:
-  - `FastEthernet0/0`: `192.225.28.46 255.255.255.252`
-  - `FastEthernet0/1`: `192.225.26.1 255.255.255.128`
-  - `FastEthernet1/0`: `192.225.28.49 255.255.255.252`
-- **Protocol7**:
-  - `FastEthernet0/0`: `192.225.28.50 255.255.255.252`
-  - `FastEthernet0/1`: `192.225.26.129 255.255.255.192`
-  - `FastEthernet1/0`: `192.225.28.53 255.255.255.252`
-- **Knights**:
-  - `FastEthernet0/0`: `192.225.28.54 255.255.255.252`
-  - `FastEthernet0/1`: `192.225.28.33 255.255.255.248`
-  - `FastEthernet1/0`: `192.225.28.57 255.255.255.252`
-- **Phantoma**:
-  - `FastEthernet0/0`: `192.225.28.58 255.255.255.252`
-  - `FastEthernet0/1`: `192.225.28.1 255.255.255.224`
-  - `FastEthernet1/0`: `192.225.28.61 255.255.255.252`
-- **Shibuya**:
-  - `FastEthernet0/0`: `192.225.28.62 255.255.255.252`
-  - `FastEthernet0/1`: `192.225.26.193 255.255.255.192`
+| Node | IP | Netmask | Gateway |
+|---|---|---|---|
+| JJ, MyuMyu | 192.225.14.2, 192.225.14.3 | 255.255.255.128 | 192.225.14.1 |
+| Karl, Lin | 192.225.0.2, 192.225.0.3 | 255.255.252.0 | 192.225.0.1 |
+| Juri | 192.225.15.194 | 255.255.255.192 | 192.225.15.193 |
+| Masayuki | 192.225.8.2 | 255.255.254.0 | 192.225.8.1 |
+| Akashic | 192.225.16.42 | 255.255.255.248 | 192.225.16.41 |
+| Omnipresence, Denpa | 192.225.4.2, 192.225.4.3 | 255.255.252.0 | 192.225.4.1 |
+| Alice, Reika | 192.225.12.2, 192.225.12.3 | 255.255.255.0 | 192.225.12.1 |
+| Taro | 192.225.15.66 | 255.255.255.192 | 192.225.15.65 |
+| Yasuo, Miho, Kuma | 192.225.13.2, .3, .4 | 255.255.255.0 | 192.225.13.1 |
+| Collective, Ghost | 192.225.10.2, 192.225.10.3 | 255.255.254.0 | 192.225.10.1 |
+| Lilith, Specter | 192.225.14.130, 192.225.14.131 | 255.255.255.128 | 192.225.14.129 |
+| Chisa, Hodgeson | 192.225.15.130, 192.225.15.131 | 255.255.255.192 | 192.225.15.129 |
+| Eiri | 192.225.16.50 | 255.255.255.248 | 192.225.16.49 |
+| Semi | 192.225.16.2 | 255.255.255.224 | 192.225.16.1 |
+| Lain, Mika | 192.225.15.2, 192.225.15.3 | 255.255.255.192 | 192.225.15.1 |
 
-##### b. Konfigurasi Static Routing (Cisco IOS)
 
-Setiap router dikonfigurasikan dengan static route menuju next-hop yang sesuai sehingga seluruh jaringan saling terhubung (*full connectivity*):
+---
 
-```cisco
-! Cyberia
-ip route 192.225.0.0 255.255.224.0 192.225.20.138
+## 9. Konfigurasi Routing (Static Route)
 
-! wired
-ip route 0.0.0.0 0.0.0.0 192.225.20.137
-ip route 192.225.0.0 255.255.252.0 192.225.6.66
-ip route 192.225.4.0 255.255.254.0 192.225.6.67
-ip route 192.225.6.0 255.255.255.192 192.225.6.67
-ip route 192.225.20.128 255.255.255.248 192.225.6.68
-ip route 192.225.20.140 255.255.255.252 192.225.6.68
-ip route 192.225.16.0 255.255.252.0 192.225.6.68
-ip route 192.225.8.0 255.255.255.0 192.225.10.66
-ip route 192.225.9.0 255.255.255.0 192.225.10.66
-ip route 192.225.10.0 255.255.255.192 192.225.10.66
-ip route 192.225.24.0 255.255.254.0 192.225.28.42
-ip route 192.225.26.0 255.255.255.128 192.225.28.42
-ip route 192.225.26.128 255.255.255.192 192.225.28.42
-ip route 192.225.26.192 255.255.255.192 192.225.28.42
-ip route 192.225.28.0 255.255.255.224 192.225.28.42
-ip route 192.225.28.32 255.255.255.248 192.225.28.42
-ip route 192.225.28.44 255.255.255.252 192.225.28.42
-ip route 192.225.28.48 255.255.255.252 192.225.28.42
-ip route 192.225.28.52 255.255.255.252 192.225.28.42
-ip route 192.225.28.56 255.255.255.252 192.225.28.42
-ip route 192.225.28.60 255.255.255.252 192.225.28.42
+Strategi routing: router pinggir memakai **default route ke parent**, router yang memiliki cabang diberi **route ke child**, dan subnet diringkas (summary) bila memungkinkan.
 
-! Psyche
-ip route 0.0.0.0 0.0.0.0 192.225.6.65
+### 9.1 Cyberia
 
-! Copland
-ip route 0.0.0.0 0.0.0.0 192.225.6.65
+Route summary ke seluruh blok di balik Wired:
 
-! Schumann
-ip route 0.0.0.0 0.0.0.0 192.225.6.65
-ip route 192.225.16.0 255.255.252.0 192.225.20.142
-
-! Accela
-ip route 0.0.0.0 0.0.0.0 192.225.20.141
-
-! Navi
-ip route 0.0.0.0 0.0.0.0 192.225.10.65
-
-! Tachibana
-ip route 0.0.0.0 0.0.0.0 192.225.28.41
-ip route 192.225.26.0 255.255.255.128 192.225.28.46
-ip route 192.225.28.48 255.255.255.252 192.225.28.46
-ip route 192.225.26.128 255.255.255.192 192.225.28.46
-ip route 192.225.28.52 255.255.255.252 192.225.28.46
-ip route 192.225.28.32 255.255.255.248 192.225.28.46
-ip route 192.225.28.56 255.255.255.252 192.225.28.46
-ip route 192.225.28.0 255.255.255.224 192.225.28.46
-ip route 192.225.28.60 255.255.255.252 192.225.28.46
-ip route 192.225.26.192 255.255.255.192 192.225.28.46
-
-! Deus
-ip route 0.0.0.0 0.0.0.0 192.225.28.45
-ip route 192.225.26.128 255.255.255.192 192.225.28.50
-ip route 192.225.28.52 255.255.255.252 192.225.28.50
-ip route 192.225.28.32 255.255.255.248 192.225.28.50
-ip route 192.225.28.56 255.255.255.252 192.225.28.50
-ip route 192.225.28.0 255.255.255.224 192.225.28.50
-ip route 192.225.28.60 255.255.255.252 192.225.28.50
-ip route 192.225.26.192 255.255.255.192 192.225.28.50
-
-! Protocol7
-ip route 0.0.0.0 0.0.0.0 192.225.28.49
-ip route 192.225.28.32 255.255.255.248 192.225.28.54
-ip route 192.225.28.56 255.255.255.252 192.225.28.54
-ip route 192.225.28.0 255.255.255.224 192.225.28.54
-ip route 192.225.28.60 255.255.255.252 192.225.28.54
-ip route 192.225.26.192 255.255.255.192 192.225.28.54
-
-! Knights
-ip route 0.0.0.0 0.0.0.0 192.225.28.53
-ip route 192.225.28.0 255.255.255.224 192.225.28.58
-ip route 192.225.28.60 255.255.255.252 192.225.28.58
-ip route 192.225.26.192 255.255.255.192 192.225.28.58
-
-! Phantoma
-ip route 0.0.0.0 0.0.0.0 192.225.28.57
-ip route 192.225.26.192 255.255.255.192 192.225.28.61
-
-! Shibuya
-ip route 0.0.0.0 0.0.0.0 192.225.28.61
+```
+enable
+configure terminal
+ip route 192.225.0.0 255.255.224.0 192.225.16.58
+end
+write memory
 ```
 
----
+<img width="611" height="341" alt="image" src="https://github.com/user-attachments/assets/268f827e-3643-43bc-ab39-aebe50793c35" />
 
-#### 6. Pengujian Koneksi (Testing & Verification pada CPT)
 
-Pengujian konektivitas dilakukan menggunakan protokol ICMP (`ping`) pada Cisco Packet Tracer untuk membuktikan bahwa seluruh segmen jaringan dan host dapat berkomunikasi.
+### 9.2 Wired
 
-##### 1. Pengujian Koneksi Host ke Default Gateway
-Memastikan host dapat terhubung ke interface router pada subnet masing-masing:
-- **JJ** ping ke Gateway Cyberia (`192.225.20.1`):
-  ```text
-  Packet Tracer PC Command Line 1.0
-  PC> ping 192.225.20.1
-  Pinging 192.225.20.1 with 32 bytes of data:
-  Reply from 192.225.20.1: bytes=32 time<1ms TTL=255
-  Reply from 192.225.20.1: bytes=32 time<1ms TTL=255
-  Reply from 192.225.20.1: bytes=32 time<1ms TTL=255
-  Reply from 192.225.20.1: bytes=32 time<1ms TTL=255
-  Ping statistics for 192.225.20.1:
-      Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
-  ```
-- **Lain** ping ke Gateway Shibuya (`192.225.26.193`):
-  ```text
-  Packet Tracer PC Command Line 1.0
-  PC> ping 192.225.26.193
-  Pinging 192.225.26.193 with 32 bytes of data:
-  Reply from 192.225.26.193: bytes=32 time<1ms TTL=255
-  Reply from 192.225.26.193: bytes=32 time<1ms TTL=255
-  Reply from 192.225.26.193: bytes=32 time<1ms TTL=255
-  Reply from 192.225.26.193: bytes=32 time<1ms TTL=255
-  Ping statistics for 192.225.26.193:
-      Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
-  ```
-- **Karl** ping ke Gateway Psyche (`192.225.0.1`):
-  ```text
-  Packet Tracer PC Command Line 1.0
-  PC> ping 192.225.0.1
-  Pinging 192.225.0.1 with 32 bytes of data:
-  Reply from 192.225.0.1: bytes=32 time<1ms TTL=255
-  Reply from 192.225.0.1: bytes=32 time<1ms TTL=255
-  Reply from 192.225.0.1: bytes=32 time<1ms TTL=255
-  Reply from 192.225.0.1: bytes=32 time<1ms TTL=255
-  Ping statistics for 192.225.0.1:
-      Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
-  ```
+```
+enable
+configure terminal
+ip route 0.0.0.0 0.0.0.0 192.225.16.57
+ip route 192.225.0.0 255.255.252.0 192.225.16.34
+ip route 192.225.8.0 255.255.254.0 192.225.16.35
+ip route 192.225.15.192 255.255.255.192 192.225.16.35
+ip route 192.225.4.0 255.255.252.0 192.225.16.36
+ip route 192.225.16.40 255.255.255.248 192.225.16.36
+ip route 192.225.16.60 255.255.255.252 192.225.16.36
+ip route 192.225.12.0 255.255.254.0 192.225.16.70
+ip route 192.225.15.64 255.255.255.192 192.225.16.70
+ip route 192.225.10.0 255.255.254.0 192.225.16.66
+ip route 192.225.14.128 255.255.255.128 192.225.16.66
+ip route 192.225.15.0 255.255.255.192 192.225.16.66
+ip route 192.225.15.128 255.255.255.192 192.225.16.66
+ip route 192.225.16.0 255.255.255.224 192.225.16.66
+ip route 192.225.16.48 255.255.255.248 192.225.16.66
+ip route 192.225.16.72 255.255.255.248 192.225.16.66
+ip route 192.225.16.80 255.255.255.240 192.225.16.66
+end
+write memory
+```
 
-##### 2. Pengujian Koneksi Antar-Host dalam Satu LAN (Same Subnet)
-- **JJ** (`192.225.20.2`) ping ke **MyuMyu** (`192.225.20.3`) pada Subnet A1:
-  ```text
-  PC> ping 192.225.20.3
-  Pinging 192.225.20.3 with 32 bytes of data:
-  Reply from 192.225.20.3: bytes=32 time<1ms TTL=128
-  Reply from 192.225.20.3: bytes=32 time<1ms TTL=128
-  Reply from 192.225.20.3: bytes=32 time<1ms TTL=128
-  Reply from 192.225.20.3: bytes=32 time<1ms TTL=128
-  Ping statistics for 192.225.20.3:
-      Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
-  ```
-- **Lain** (`192.225.26.194`) ping ke **Mika** (`192.225.26.195`) pada Subnet A25:
-  ```text
-  PC> ping 192.225.26.195
-  Pinging 192.225.26.195 with 32 bytes of data:
-  Reply from 192.225.26.195: bytes=32 time<1ms TTL=128
-  Reply from 192.225.26.195: bytes=32 time<1ms TTL=128
-  Reply from 192.225.26.195: bytes=32 time<1ms TTL=128
-  Reply from 192.225.26.195: bytes=32 time<1ms TTL=128
-  Ping statistics for 192.225.26.195:
-      Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
-  ```
-- **Karl** (`192.225.0.2`) ping ke **Lin** (`192.225.0.3`) pada Subnet A4:
-  ```text
-  PC> ping 192.225.0.3
-  Pinging 192.225.0.3 with 32 bytes of data:
-  Reply from 192.225.0.3: bytes=32 time<1ms TTL=128
-  Reply from 192.225.0.3: bytes=32 time<1ms TTL=128
-  Reply from 192.225.0.3: bytes=32 time<1ms TTL=128
-  Reply from 192.225.0.3: bytes=32 time<1ms TTL=128
-  Ping statistics for 192.225.0.3:
-      Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
-  ```
+<img width="647" height="592" alt="image" src="https://github.com/user-attachments/assets/bbed98f0-90b7-409f-8bca-888ae54e27db" />
 
-##### 3. Pengujian Koneksi Antar-Router (Point-to-Point Links)
-- Router **Cyberia** ping ke router **wired** (`192.225.20.138`):
-  ```text
-  Cyberia# ping 192.225.20.138
-  Type escape sequence to abort.
-  Sending 5, 100-byte ICMP Echos to 192.225.20.138, timeout is 2 seconds:
-  !!!!!
-  Success rate is 100 percent (5/5), round-trip min/avg/max = 1/2/4 ms
-  ```
-- Router **wired** ping ke router **Tachibana** (`192.225.28.42`):
-  ```text
-  wired# ping 192.225.28.42
-  Type escape sequence to abort.
-  Sending 5, 100-byte ICMP Echos to 192.225.28.42, timeout is 2 seconds:
-  !!!!!
-  Success rate is 100 percent (5/5), round-trip min/avg/max = 1/2/4 ms
-  ```
-- Router **Phantoma** ping ke router **Shibuya** (`192.225.28.62`):
-  ```text
-  Phantoma# ping 192.225.28.62
-  Type escape sequence to abort.
-  Sending 5, 100-byte ICMP Echos to 192.225.28.62, timeout is 2 seconds:
-  !!!!!
-  Success rate is 100 percent (5/5), round-trip min/avg/max = 1/2/4 ms
-  ```
 
-##### 4. Pengujian Koneksi Antarjaringan End-to-End Lintas Router Terjauh
-Memastikan seluruh host di ujung jaringan terjauh (The Wired Expansion) dapat saling menjangkau:
-- **JJ** (Subnet A1, Cyberia) ping ke **Lain** (Subnet A25, Shibuya):
-  ```text
-  PC> ping 192.225.26.194
-  Pinging 192.225.26.194 with 32 bytes of data:
-  Reply from 192.225.26.194: bytes=32 time=6ms TTL=120
-  Reply from 192.225.26.194: bytes=32 time=5ms TTL=120
-  Reply from 192.225.26.194: bytes=32 time=5ms TTL=120
-  Reply from 192.225.26.194: bytes=32 time=5ms TTL=120
-  Ping statistics for 192.225.26.194:
-      Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
-  ```
-- **Karl** (Subnet A4, Psyche) ping ke **Lain** (Subnet A25, Shibuya):
-  ```text
-  PC> ping 192.225.26.194
-  Pinging 192.225.26.194 with 32 bytes of data:
-  Reply from 192.225.26.194: bytes=32 time=7ms TTL=119
-  Reply from 192.225.26.194: bytes=32 time=6ms TTL=119
-  Reply from 192.225.26.194: bytes=32 time=6ms TTL=119
-  Reply from 192.225.26.194: bytes=32 time=6ms TTL=119
-  Ping statistics for 192.225.26.194:
-      Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
-  ```
-- **Omnipresence** (Subnet A9, Accela) ping ke **Lain** (Subnet A25, Shibuya):
-  ```text
-  PC> ping 192.225.26.194
-  Pinging 192.225.26.194 with 32 bytes of data:
-  Reply from 192.225.26.194: bytes=32 time=8ms TTL=118
-  Reply from 192.225.26.194: bytes=32 time=7ms TTL=118
-  Reply from 192.225.26.194: bytes=32 time=7ms TTL=118
-  Reply from 192.225.26.194: bytes=32 time=7ms TTL=118
-  Ping statistics for 192.225.26.194:
-      Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
-  ```
-- **Alice** (Subnet A12, Navi) ping ke **Lain** (Subnet A25, Shibuya):
-  ```text
-  PC> ping 192.225.26.194
-  Pinging 192.225.26.194 with 32 bytes of data:
-  Reply from 192.225.26.194: bytes=32 time=7ms TTL=119
-  Reply from 192.225.26.194: bytes=32 time=6ms TTL=119
-  Reply from 192.225.26.194: bytes=32 time=6ms TTL=119
-  Reply from 192.225.26.194: bytes=32 time=6ms TTL=119
-  Ping statistics for 192.225.26.194:
-      Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
-  ```
+### 9.3 Tachibana
+
+```
+enable
+configure terminal
+ip route 0.0.0.0 0.0.0.0 192.225.16.65
+ip route 192.225.14.128 255.255.255.128 192.225.16.74
+ip route 192.225.15.0 255.255.255.192 192.225.16.74
+ip route 192.225.15.128 255.255.255.192 192.225.16.74
+ip route 192.225.16.0 255.255.255.224 192.225.16.74
+ip route 192.225.16.48 255.255.255.248 192.225.16.74
+ip route 192.225.16.76 255.255.255.252 192.225.16.74
+ip route 192.225.16.80 255.255.255.240 192.225.16.74
+end
+write memory
+```
+<img width="646" height="438" alt="image" src="https://github.com/user-attachments/assets/42564b57-67f9-4755-9352-ad3f94e267ee" />
+
+### 9.4 Router lainnya
+
+Router lain memakai default route ke parent, dan route ke child bila memiliki cabang.
+
+| Router | Default route (via) | Route ke child |
+|---|---|---|
+| Psyche | 192.225.16.33 | Copland, Schumann, Accela |
+| Copland | 192.225.16.33 | Psyche, Accela |
+| Schumann | 192.225.16.33 | Psyche, Copland, Accela |
+| Accela | 192.225.16.61 | - |
+| Navi | 192.225.16.69 | - |
+| Deus | 192.225.16.73 | Protocol7 sampai Shibuya |
+| Protocol7 | 192.225.16.77 | Knights sampai Shibuya |
+| Knights | 192.225.16.81 | Phantoma, Shibuya |
+| Phantoma | 192.225.16.85 | Subnet Shibuya |
+| Shibuya | 192.225.16.89 | - |
 
 ---
+
+## 10. Pengujian Konektivitas
+
+### 10.1 Ping router ke router
+
+| Dari | Ke | Hasil |
+|---|---|---|
+| Wired | Accela (192.225.16.62) | Berhasil |
+| Wired | Protocol7 (192.225.16.78) | Berhasil |
+| Wired | Shibuya (192.225.16.90) | Berhasil |
+| Cyberia | Shibuya (192.225.16.90) | Berhasil |
+| Psyche | Protocol7 (192.225.16.78) | Berhasil |
+| Protocol7 | Psyche (192.225.16.34) | Berhasil |
+
+<img width="570" height="126" alt="image" src="https://github.com/user-attachments/assets/7a1a8996-0822-4f6e-8c77-b254b5609507" />
+<img width="562" height="125" alt="image" src="https://github.com/user-attachments/assets/72d9f356-9d07-4903-aa00-b7ffd1b5483c" />
+<img width="565" height="130" alt="image" src="https://github.com/user-attachments/assets/0f927ffd-7598-47f8-a1ec-5aeae3140c07" />
+<img width="565" height="123" alt="image" src="https://github.com/user-attachments/assets/d743e0e1-e652-4532-bf21-8d0f3ecafe28" />
+<img width="563" height="120" alt="image" src="https://github.com/user-attachments/assets/9c6948f2-8acd-4510-a446-2b33c7cf269d" />
+<img width="556" height="128" alt="image" src="https://github.com/user-attachments/assets/4e8d5487-bdf1-4b64-9b70-4860b2db3288" />
+
+### 10.2 Ping PC ke PC
+
+| Dari | Ke | Hasil |
+|---|---|---|
+| Lain | JJ (192.225.14.2) | Berhasil |
+| JJ | Lain (192.225.15.2) | Berhasil |
+| Omnipresence | Mika (192.225.15.3) | Berhasil |
+| Mika | Omnipresence (192.225.4.2) | Berhasil |
+
+<img width="452" height="240" alt="image" src="https://github.com/user-attachments/assets/0b4348a1-26b3-4f50-a09d-b41d681e7326" />
+<img width="460" height="252" alt="image" src="https://github.com/user-attachments/assets/af1f0eb4-6915-46c9-a6e6-1f04eac3c664" />
+<img width="450" height="220" alt="image" src="https://github.com/user-attachments/assets/b45be59f-0e16-4a89-8ac0-d8abd3393989" />
+<img width="457" height="230" alt="image" src="https://github.com/user-attachments/assets/66cf42ec-0508-46d2-8252-28d2cafa63c9" />
+
+
+### 10.3 Ping PC ke router
+
+| Dari | Ke | Hasil |
+|---|---|---|
+| Karl | Shibuya (192.225.16.90) | Berhasil |
+| Shibuya | Karl (192.225.0.2) | Berhasil |
+| Yasuo | Phantoma (192.225.16.86) | Berhasil |
+| Phantoma | Yasuo (192.225.13.2) | Berhasil |
+
+<img width="458" height="196" alt="image" src="https://github.com/user-attachments/assets/c405f340-bb4e-4f0c-a8e4-a50e42c96fd1" />
+<img width="560" height="125" alt="image" src="https://github.com/user-attachments/assets/06327443-f80a-4915-a75b-af5ad9e21849" />
+<img width="451" height="207" alt="image" src="https://github.com/user-attachments/assets/e429ce5e-4943-49f0-9135-207f7d6b0347" />
+<img width="562" height="112" alt="image" src="https://github.com/user-attachments/assets/5d3866b3-9c8a-4d7a-a945-f9b8f8ed457e" />
+
+
+### 10.5 Koneksi ke luar (Cloud)
+
+Router Cyberia adalah satu-satunya yang terhubung ke Cloud. Di Cisco Packet Tracer, Cloud-PT tidak terhubung ke internet sebenarnya, sehingga `ping 8.8.8.8` dari Lain tidak berhasil. Pengujian koneksi ke luar yang sesungguhnya dilakukan pada bagian GNS3 melalui NAT.
+
+<img width="481" height="180" alt="image" src="https://github.com/user-attachments/assets/9132af10-b835-4159-81ad-02157f00401e" />
+
+---
+
+## 11. Kendala dan Solusi
+
+| Kendala | Solusi |
+|---|---|
+| Menu port router hanya menampilkan Console dan Auxiliary | Router belum dinyalakan setelah pemasangan modul, atau modul NM-2FE2W belum terpasang. Power dimatikan, modul dipasang, lalu dinyalakan kembali |
+| Nomor port yang muncul berbeda dari rencana | Port yang dipakai dicatat dengan hover pada kabel, lalu IP dipasang sesuai tujuan kabel |
+| Ping gagal karena IP end device salah | IP, netmask, dan gateway tiap end device dicocokkan ulang dengan subnet router |
+| Route statis hilang pada Cyberia dan Wired | Konfigurasi dimasukkan ulang, lalu project disimpan dengan `Ctrl+S` |
+| IP interface Accela salah | IP diperbaiki menjadi 192.225.16.62/30 |
+
+---
+
+## 12. Kesimpulan
+
+- Seluruh 25 subnet dapat digabung menjadi satu blok induk `192.225.0.0/19` dengan metode CIDR.
+- Pembagian IP efisien, tanpa tumpang tindih, dengan ruang kosong hanya di dua tempat.
+- Routing memakai default route ke parent dan route summary ke child.
+- Seluruh node pada topologi Cisco Packet Tracer dapat saling terhubung.
+
+## 13. Referensi
+
+- Modul Praktikum Komunikasi Data dan Jaringan Komputer 2026
+- Soal Shift Modul 4 - Layer 04: The Wired Expansion
 
 #### 7. Kesimpulan CPT (CIDR)
 Penerapan subnetting **CIDR** pada Cisco Packet Tracer (CPT) berhasil mengalokasikan 25 subnet secara efisien ke dalam rentang IP `192.225.0.0/19` dengan hierarki penggabungan (*supernetting*) yang rapi. Seluruh 13 router dan 25 host telah dikonfigurasi dengan alamat IP, netmask, default gateway, serta tabel *static routing* yang memungkinkan konektivitas penuh (*full mesh*) antar-node tanpa ada alamat yang bertabrakan (*overlapping*) maupun terisolasi.
